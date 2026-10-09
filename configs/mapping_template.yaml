@@ -1,0 +1,42 @@
+# Template for the generic column-mapping adapter: connect ANY model that exports
+# per-cell (or lumped) time series as a table.  Copy, edit the right-hand sides,
+# then:  snowtrack validate -i my_model_output -c my_mapping.yaml
+#        snowtrack run      -i my_model_output -o tracked -c my_mapping.yaml
+#
+# Canonical columns (see `snowtrack schema`):
+#   S_<SOURCE>   water reaching the ground from each source     (at least one)
+#   RUNOFF_SURF  direct surface runoff                           (required)
+#   INFIL        infiltration (optional, default sum(S_*) - RUNOFF_SURF)
+#   W<n>_LIQ     end-of-step liquid storage of soil layer n      (W1_LIQ required)
+#   W<n>_ICE, Q<n>_PERC, Q<n>_BASE, E<n>_TR, PHI<n>_FREEZE, PHI<n>_MELT   (optional)
+# Fluxes are depths per time step (mm/day for daily output); storages are mm.
+adapter: mapping
+pattern: ["*.csv", "*.csv.gz"]        # which files of the input directory are cells
+read:                                 # pandas.read_csv options
+  sep: ","                            # "\s+" for whitespace-delimited text
+  header: 0                           # use `header: null` plus `names: [...]` for header-less files
+  comment: "#"
+time:
+  date: date                          # one datetime column ...
+  # year: year                        # ... or separate year/month/day(/hour) columns
+  # month: month
+  # day: day
+columns:                              # canonical name: raw column name OR a pandas expression
+  S_RAIN: rain                        # e.g. rainfall reaching the ground
+  S_SNOW: snowmelt                    # e.g. melt leaving the snowpack
+  # S_GLACIER: glacier_melt
+  RUNOFF_SURF: surface_runoff
+  # INFIL: infiltration               # omit if the model has no explicit infiltration term
+  W1_LIQ: "soil_moisture_upper + soil_moisture_lower"   # one bulk store (sum of layers) ...
+  Q1_BASE: baseflow
+  E1_TR: soil_evapotranspiration
+  # ... or several layers (then give per-layer percolation / baseflow / ET):
+  # W1_LIQ: sm_layer1
+  # Q1_PERC: perc_1_to_2
+  # E1_TR: et_layer1
+  # W2_LIQ: sm_layer2
+  # Q2_BASE: baseflow
+  # E2_TR: et_layer2
+scale:                                # optional multipliers (unit conversion), applied after mapping
+  # S_RAIN: 86400                     # kg m-2 s-1 -> mm/day
+keep: []                              # raw columns to pass through to the tracked output

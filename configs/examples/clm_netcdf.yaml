@@ -1,0 +1,20 @@
+# Example: Community Land Model (CLM5) / CTSM gridded history output (netCDF).
+# Variable names follow the CLM history conventions; adjust to your case and
+# check units.  CLM fluxes are kg m-2 s-1 (= mm/s), hence scale: 86400 for daily files.
+#
+#   snowtrack run -i clm_h1_daily.nc -o tracked -c configs/examples/clm_netcdf.yaml --workers 4
+adapter: netcdf
+engine: h5netcdf
+time_dim: time
+cell_dims: [lat, lon]
+mask_var: RUNOFF_SURF            # cells where this is all-NaN (ocean) are skipped
+scale: 1.0                       # global multiplier (set 86400 if all fluxes are per second)
+variables:
+  S_RAIN:  {var: RAIN,       scale: 86400}   # rain reaching the ground (after canopy)  [mm/s -> mm/day]
+  S_SNOW:  {var: QSNOMELT,   scale: 86400}   # snow melt leaving the snowpack
+  RUNOFF_SURF: {var: QOVER,  scale: 86400}   # surface runoff
+  # INFIL omitted: default sum(S_*) - RUNOFF_SURF  (or use QINFL with scale 86400)
+  W1_LIQ:  {var: SOILLIQ, sum_over: levsoi}  # liquid soil water, summed over soil levels [mm]
+  W1_ICE:  {var: SOILICE, sum_over: levsoi}  # soil ice, summed [mm]; phase change inferred from its change
+  Q1_BASE: {var: QDRAI,     scale: 86400}    # sub-surface drainage to the river
+  E1_TR:   {var: QVEGT,     scale: 86400}    # transpiration (+ add QSOIL if you want soil evaporation withdrawn too)

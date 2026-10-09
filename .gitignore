@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+.idea/
+.vscode/
+*.log
+# generated outputs (keep the committed expected_* folders)
+examples/*/output/
+examples/*/output_*/
+examples/**/_work/
+tests/_tmp/
+examples/04_bring_your_own_model/model_output/
+examples/04_bring_your_own_model/tracked/
+examples/02_vic_classic_changdu/output/
+examples/03_basin_outlet_metrics/output/
+snowtrack_demo/
+demo_out/

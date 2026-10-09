@@ -1,0 +1,23 @@
+# Adapter configuration reproducing the set-up of Zhu et al. (VIC-glacier 4.2.d, classic driver).
+#
+#   snowtrack run -i <dir with fluxes_*> -o tracked -c configs/vic_classic_zhu2026.yaml \
+#                 --composition legacy --skip-input-years 2 --workers 8
+#
+# Global parameter file of the study (relevant lines):
+#   NLAYER 3, TIME_STEP 24, FULL_ENERGY FALSE, FROZEN_SOIL TRUE, STARTYEAR 1961, ENDYEAR 2022
+#   OUTFILE fluxes 9  with the OUTVAR list below  ->  14 columns: YEAR MONTH DAY + 9 variables,
+#   OUT_SOIL_MOIST expanding into 3 layer columns.
+adapter: vic-classic
+outvars: [OUT_PREC, OUT_EVAP, OUT_RUNOFF, OUT_BASEFLOW, OUT_SWE, OUT_SNOW_MELT, OUT_RAINF, OUT_SNOWF, OUT_SOIL_MOIST]
+nlayer: 3
+time_columns: 3            # YEAR MONTH DAY (use 4 when OUT_STEP < 24 h adds HOUR)
+sources:
+  S_RAIN: RAINF            # rain reaching the ground (OUT_RAINF)
+  S_SNOW: SNOW_MELT        # seasonal snowmelt leaving the snowpack (OUT_SNOW_MELT)
+  # S_GLACIER: GLACIER_MELT   # add if your VIC variant writes glacier melt as an OUTVAR
+runoff_surf: RUNOFF        # OUT_RUNOFF (direct runoff)
+baseflow: BASEFLOW         # OUT_BASEFLOW
+soil_et: evap_minus_sublimation   # water taken from the soil store = OUT_EVAP - sublimation
+sublimation: swe_balance   # SUBL(t) = max(SWE(t-1) + SNOWF(t) - SNOW_MELT(t) - SWE(t), 0)
+floor_negative_soil_et: false     # archived convention: a negative soil ET (sublimation > EVAP) is kept as is
+pattern: ["fluxes_*", "fluxes_*.gz"]

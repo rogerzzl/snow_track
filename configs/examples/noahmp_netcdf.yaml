@@ -1,0 +1,15 @@
+# Example: Noah-MP (e.g. WRF-Hydro / HRLDAS LDASOUT) gridded daily output.
+# Variable names and units differ between builds; this file shows the pattern.
+#   snowtrack run -i LDASOUT_daily.nc -o tracked -c configs/examples/noahmp_netcdf.yaml
+adapter: netcdf
+time_dim: time
+cell_dims: [south_north, west_east]
+mask_var: RUNOFF_SURF
+variables:
+  S_RAIN:  {var: RAINRATE_GROUND, scale: 86400}   # rain reaching the ground [mm/s -> mm/day]
+  S_SNOW:  {var: QSNOW_MELT,      scale: 86400}   # snowmelt (QMELT) [mm/s -> mm/day]
+  RUNOFF_SURF: {var: SFCRNOFF}                    # accumulated or per-step surface runoff [mm]  (difference first if accumulated)
+  W1_LIQ:  {var: SH2O,  sum_over: soil_layers_stag}   # liquid soil water, m3/m3 * depth -> convert to mm beforehand
+  W1_ICE:  {var: SOIL_ICE, sum_over: soil_layers_stag}
+  Q1_BASE: {var: UGDRNOFF}                        # underground runoff [mm]
+  E1_TR:   {var: ETRAN, scale: 86400}             # transpiration

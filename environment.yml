@@ -1,0 +1,17 @@
+name: snowtrack
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy>=1.23
+  - pandas>=1.5
+  - pyyaml>=6.0
+  - scipy>=1.9
+  - matplotlib>=3.6
+  - xarray>=2023.1
+  - h5netcdf>=1.1
+  - h5py>=3.8
+  - pytest>=7
+  - pip
+  - pip:
+      - -e .

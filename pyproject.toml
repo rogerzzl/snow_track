@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "snowtrack"
+version = "2.0.0"
+description = "Model-agnostic source tracking of snowmelt (and other water sources) through surface and subsurface runoff pathways in hydrological model output"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+  {name = "Zhanliang Zhu", email = "rogerzzl1997@gmail.com"},
+]
+keywords = ["snowmelt", "hydrology", "source tracking", "baseflow", "VIC", "water balance", "cryosphere"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Hydrology",
+]
+dependencies = [
+  "numpy>=1.23",
+  "pandas>=1.5",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+netcdf = ["xarray>=2023.1", "h5netcdf>=1.1", "h5py>=3.8"]
+metrics = ["scipy>=1.9"]
+plot = ["matplotlib>=3.6"]
+dev = ["pytest>=7", "scipy>=1.9", "matplotlib>=3.6", "xarray>=2023.1", "h5netcdf>=1.1", "h5py>=3.8"]
+all = ["scipy>=1.9", "matplotlib>=3.6", "xarray>=2023.1", "h5netcdf>=1.1", "h5py>=3.8"]
+
+[project.scripts]
+snowtrack = "snowtrack.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/rogerzzl/snow_track"
+Issues = "https://github.com/rogerzzl/snow_track/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

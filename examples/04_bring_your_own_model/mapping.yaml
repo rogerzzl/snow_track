@@ -1,0 +1,19 @@
+# How snowtrack reads the toy model output written by make_toy_model_output.py.
+# The toy model has a soil box (sm) that drains ("perc") into two response boxes
+# (suz, slz).  We map it to two "layers":
+#   layer 1 = soil box      : liquid storage sm, ET from it, percolation to layer 2
+#   layer 2 = response boxes: storage suz + slz, all of their outflow is baseflow to the channel
+adapter: mapping
+pattern: ["*.csv"]
+read: {sep: ",", header: 0}
+time: {date: date}
+columns:
+  S_RAIN: rain                      # rain reaching the ground (mm/day)
+  S_SNOW: snowmelt                  # melt leaving the snowpack (mm/day)
+  RUNOFF_SURF: qdirect              # direct surface runoff (mm/day)
+  W1_LIQ: sm                        # soil box storage (mm) at end of day
+  E1_TR: aet                        # evapotranspiration taken from the soil box
+  Q1_PERC: perc                     # recharge from the soil box into the response boxes
+  W2_LIQ: "suz + slz"               # response-box storage (mm)
+  Q2_BASE: "q_upper + q_lower"      # outflow of the response boxes = subsurface pathway
+keep: [swe]                         # pass the snowpack through to the tracked file (not used by the tracker)

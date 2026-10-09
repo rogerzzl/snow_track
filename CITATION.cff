@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use snowtrack, please cite the software and the associated article."
+title: "snowtrack: model-agnostic source tracking of snowmelt through surface and subsurface runoff pathways"
+version: 2.0.0
+date-released: 2026-10-09
+license: MIT
+repository-code: "https://github.com/rogerzzl/snow_track"
+authors:
+  - family-names: Zhu
+    given-names: Zhanliang
+    email: rogerzzl1997@gmail.com
+    affiliation: "Beijing Normal University; Hohai University"
+  - family-names: Tang
+    given-names: Xiongpeng
+    email: xptang@bnu.edu.cn
+    affiliation: "Beijing Normal University"
+preferred-citation:
+  type: article
+  title: "Subsurface-routed snowmelt buffers river response to warming on the Tibetan Plateau"
+  authors:
+    - family-names: Zhu
+      given-names: Zhanliang
+    - family-names: Tang
+      given-names: Xiongpeng
+    - family-names: Zhang
+      given-names: Jianyun
+    - family-names: Jin
+      given-names: Junliang
+    - family-names: Gao
+      given-names: Chao
+    - family-names: Zhang
+      given-names: Silong
+    - family-names: Xu
+      given-names: Haoting
+    - family-names: Tang
+      given-names: Yehai
+    - family-names: Liu
+      given-names: Yanli
+    - family-names: Guan
+      given-names: Tiesheng

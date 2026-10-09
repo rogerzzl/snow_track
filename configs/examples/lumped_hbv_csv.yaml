@@ -1,0 +1,19 @@
+# Example: a lumped conceptual model (HBV-like) that writes one CSV per catchment with
+#   date, rain, snowmelt, qdirect, sm, suz, slz, q_upper, q_lower, perc, aet
+# Two stores are mapped to two "layers": the soil box (SM) and the response boxes
+# (upper + lower zone).  Quick runoff from the upper zone is treated as subsurface
+# drainage here (it leaves a sub-surface store); change the mapping if your model
+# calls it surface runoff.
+adapter: mapping
+pattern: ["*.csv"]
+read: {sep: ",", header: 0}
+time: {date: date}
+columns:
+  S_RAIN: rain
+  S_SNOW: snowmelt
+  RUNOFF_SURF: qdirect             # direct (surface) runoff, 0 if the model has none
+  W1_LIQ: sm                       # soil moisture box
+  E1_TR: aet
+  Q1_PERC: perc                    # recharge from SM to the response boxes
+  W2_LIQ: "suz + slz"              # upper + lower zone storage
+  Q2_BASE: "q_upper + q_lower"     # all outflow of the response boxes reaches the channel
