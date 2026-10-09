@@ -1,6 +1,6 @@
 # snowtrack
 
-[![tests](https://github.com/rogerzzl/snow_track/actions/workflows/ci.yml/badge.svg)](https://github.com/rogerzzl/snow_track/actions/workflows/ci.yml)
+[![tests](https://github.com/rogerzzl/snow_track/actions/workflows/ci.yml/badge.svg?branch=v2.0)](https://github.com/rogerzzl/snow_track/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Where does the snowmelt go?** `snowtrack` takes the storages and fluxes that
@@ -34,6 +34,7 @@ the decomposition is exactly mass-consistent ([`docs/method.md`](docs/method.md)
 ```bash
 git clone https://github.com/rogerzzl/snow_track.git
 cd snow_track
+git checkout v2.0                     # version 2 lives on this branch (tag v2.0.0)
 python -m pip install -e ".[dev]"      # Python >= 3.9; numpy, pandas, pyyaml (+ scipy, matplotlib, xarray for extras)
 python -m pytest                       # ~1 min: unit tests + regression against the archived study outputs
 snowtrack demo                         # synthetic cell, a real VIC-glacier cell, a basin outlet of the study

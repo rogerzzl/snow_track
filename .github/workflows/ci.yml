@@ -2,7 +2,8 @@ name: tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, v2.0]
+    tags: ["v*"]
   pull_request:
 
 jobs:
